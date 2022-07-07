@@ -27,7 +27,7 @@ import static org.springframework.context.annotation.ComponentScan.Filter;
 public class ApplicationConfiguration {
 
     @Bean
-    @Profile("")
+    @Profile("web")
     public ConnectionPool pool2(@Value("${db.username}") String username) {
         return new ConnectionPool(username, 20);
     }
