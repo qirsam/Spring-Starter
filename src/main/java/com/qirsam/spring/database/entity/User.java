@@ -1,9 +1,6 @@
 package com.qirsam.spring.database.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,6 +13,8 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "users")
+@ToString(exclude = "userChats")
+@EqualsAndHashCode(of = "username")
 public class User implements BaseEntity<Long>{
 
     @Id

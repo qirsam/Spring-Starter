@@ -1,14 +1,20 @@
 package com.qirsam.spring.database.repository;
 
 import com.qirsam.spring.database.entity.Company;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 
-public interface CompanyRepository extends Repository<Company, Integer> {
+public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
-    Optional<Company> findById(Integer id);
+//    @Query(name = "Company.findByName")
+    @Query(value = "select c from Company c " +
+                   "join fetch c.locales cl " +
+                   "where c.name = :name")
+    Optional<Company> findByName(String name);
 
-    void delete(Company entity);
+    List<Company> findAllByNameContainingIgnoreCase(String fragment);
 }
