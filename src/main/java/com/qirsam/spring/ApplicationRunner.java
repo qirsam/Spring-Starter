@@ -1,30 +1,15 @@
 package com.qirsam.spring;
 
-import com.qirsam.spring.config.ApplicationConfiguration;
-import com.qirsam.spring.database.pool.ConnectionPool;
-import com.qirsam.spring.service.CompanyService;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
-import java.io.Serializable;
-
+@SpringBootApplication
+@ConfigurationPropertiesScan
 public class ApplicationRunner {
 
     public static void main(String[] args) {
-        String value = "hello";
-        System.out.println(CharSequence.class.isAssignableFrom(value.getClass()));
-        System.out.println(BeanFactoryPostProcessor.class.isAssignableFrom(value.getClass()));
-        System.out.println(Serializable.class.isAssignableFrom(value.getClass()));
-
-        try (var context = new AnnotationConfigApplicationContext()) {
-            context.register(ApplicationConfiguration.class);
-            context.getEnvironment().setActiveProfiles("web", "prod");
-            context.refresh();
-            var pool2 = context.getBean("pool1", ConnectionPool.class);
-            System.out.println(pool2);
-
-            var companyService = context.getBean(CompanyService.class);
-            System.out.println(companyService.findById(1));
-        }
+        var context = SpringApplication.run(ApplicationRunner.class, args);
+        System.out.println(context.getBeanDefinitionCount());
     }
 }

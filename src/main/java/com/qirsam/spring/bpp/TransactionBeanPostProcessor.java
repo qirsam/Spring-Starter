@@ -4,8 +4,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +29,11 @@ public class TransactionBeanPostProcessor implements BeanPostProcessor {
                 System.out.println("Open transaction");
                 try {
                     return method.invoke(bean, args); //обрабатываем пришедший бин, если это был прокси, то один прокси оборачиваем в другой
-                } finally {
+                } catch (Exception exception) {
+                    System.out.println("rollback transaction");
+                    throw exception;
+                }
+                finally {
                     System.out.println("Close transaction");
                 }
             });
